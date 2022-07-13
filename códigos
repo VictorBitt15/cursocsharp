@@ -1,0 +1,78 @@
+Run((x,y)=> x*y);
+            Func<decimal> test2= ()=>  4.2M; 
+            Console.WriteLine(test2());
+
+           var test = (string name) => Console.WriteLine($"Olá {name}");
+            test("Jonh Wick");
+
+            Func<string, bool> checkName = name => name == "Fredi";
+            Console.WriteLine(checkName("Victor"));
+            static void Run(Func<int,int,int> calc){
+            Console.WriteLine(calc(10,20));
+        }
+        static int Sum(int a, int b){
+            return a+b;
+        }
+        
+    }
+
+    //delegate int Calculate(int x,int y);
+    class DataStore<T>{
+        public T Value{get;set;}
+    }
+    namespace System
+{
+    static class Extensions
+    {
+    public static void WriteLine(this string text, ConsoleColor color){
+        Console.ForegroundColor = color;
+        Console.WriteLine(text);
+        Console.ResetColor();
+    }
+    public static int Test(this int number){ return 10;}
+    }
+}    
+var account = new BankAccont("Victor",100);
+           string v = JsonSerializer.Serialize(account);
+           Console.WriteLine(v);
+
+           var v1 = JsonSerializer.Deserialize<BankAccont>(v);
+           Console.WriteLine(v1.Name);
+
+           var result = query.ToList();
+            
+            Console.WriteLine(result.Count());
+
+            foreach(var number in result)
+            {
+                Console.WriteLine(number);
+            }
+
+
+int [] numbers = {1,2,4,5,7,43};
+
+            var query = numbers.OrderByDescending(number => number );
+            
+            var accounts = new List<BankAccont>
+            {
+                new BankAccont("Victor",100) {branch="123"},
+                new BankAccont("Luiza",200) { branch= "321"},
+                new BankAccont("Ighor",200) { branch= "321"}
+            };
+            var acc0 = accounts.GroupBy(account => account.branch).ToArray();
+            foreach (var group in acc0)
+            {
+                Console.WriteLine($"Agencia:{group.Key}");
+                foreach (var item in group)
+                {
+                    Console.WriteLine($"{item.Name} possui : R$ {item.Balance}");
+                }
+            }
+            var acc = accounts.OrderBy(account => account.Balance).ToArray();
+            
+            var namesQuery = accounts.Select(accouts => new {accouts.Name, accouts.branch} );
+            
+            var test = Enumerable.Empty<int>();
+            
+            var range = Enumerable.Range(0,26).Select(number => (char)('a'+number));
+        

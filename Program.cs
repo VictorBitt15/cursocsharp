@@ -1,89 +1,84 @@
-﻿class program 
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Banks;
+class program 
+{      
+    static async Task Main()
     {
-        
-        static void Main(){
+        var task = Task.Run(()=> 
+        {
             
-            //"Testando".WriteLine(ConsoleColor.Red);
-            /*Run((x,y)=> x*y);
-            var test = (string name)=>Console.WriteLine($"Olá {name}");
-            test("Jonh wick"); 
-            Func<decimal> test2 = () => 4.2m;
-            Console.WriteLine(test2());
-            Func<string, bool> checkName = name => name == "Victor";
-            Console.WriteLine(checkName("Luiza"));*/
-           var store = new DataStore<int>();
-            store.Value=42;
-            Console.WriteLine(store.Value);
-        }
-        
-        /*static void Run(Func<int,int,int> calc){
-            Console.WriteLine(calc(20,30));
-        }
-        static int Sum(int a, int b){
-            return a+b;
-        }*/
-        
-    }
+            Thread.Sleep(5000);
+            Console.WriteLine("Acordou");
+            return 42;
+        });
+        var result = await task;
+        Console.WriteLine("Pronto");
+        Console.WriteLine(result);
+        Console.ReadLine();
 
-    class DataStore<T>{
-        public T Value{get;set;}
     }
-    static class Extensions{
-        public static void WriteLine(this string text, ConsoleColor color){
-            Console.ForegroundColor = color;
-            Console.WriteLine(text);
-            Console.ResetColor();
-        }
-    }
-class FileLogger : ILogger
+}     
+
+
+namespace Banks
 {
-    private readonly string file;
-
-    public FileLogger (string file)
+    public class FileLogger : ILogger
     {
-        this.file = file;
-    }
-    public void Log(string message)
-    {
-        File.AppendAllText(file,$"{message}{Environment.NewLine}");
-    }
-}
-interface ILogger{
-    void Log(string message){
-        Console.WriteLine($"LOGGER:{message}");
-    }
-}
-class ConsoleLogger : ILogger
-{
-    public void Log(string message)
-    {
-        
-    }
-}
-class BankAccont{
-    private string name;
-    private readonly ILogger logger;
+        private readonly string file;
 
-    public decimal Balance { 
-        get; private set;
-    }  
+        public FileLogger (string file)
+        {
+            this.file = file;
+        }
+        public void Log(string message)
+        {
+            File.AppendAllText(file,$"{message}{Environment.NewLine}");
+        }
+    }
+    public interface ILogger{
+        void Log(string message){
+            Console.WriteLine($"LOGGER:{message}");
+        }
+    }
+    public class ConsoleLogger : ILogger
+    {
+        public void Log(string message)
+        {
+            
+        }
+    }
+    public class BankAccont{
+        private readonly ILogger logger;
 
-    public BankAccont(string name, decimal balance, ILogger logger){
-        if(string.IsNullOrWhiteSpace(name)){
-            throw new ArgumentException("Nome inválido", nameof(name));
+        public string Name{get; private set;}
+        public decimal Balance { 
+            get; private set;
+        }  
+        public string branch;
+
+        [JsonConstructor]
+        public BankAccont(string name, decimal balance): this(name,balance, new ConsoleLogger())
+        {
+
         }
-        if(balance < 0){
-            throw new Exception("Saldo não pode ser negativo.");
+        public BankAccont(string name, decimal balance,ILogger logger){
+            if(string.IsNullOrWhiteSpace(name)){
+                throw new ArgumentException("Nome inválido", nameof(name));
+            }
+            if(balance < 0){
+                throw new Exception("Saldo não pode ser negativo.");
+            }
+            Name = name;
+            this.Balance = balance;
+            this.logger = logger;
         }
-        this.name = name;
-        this.Balance = balance;
-        this.logger = logger;
-    }
-    public void deposito(decimal valor){
-        if(valor <=0){
-            logger.Log($"Não é possível depositar{valor} na conta de {name}");
-            throw new Exception("Deposito inválido! Tente novamente");
+        public void deposito(decimal valor){
+            if(valor <=0){
+                logger.Log($"Não é possível depositar{valor} na conta de {Name}");
+                throw new Exception("Deposito inválido! Tente novamente");
+            }
+            Balance+=valor;
         }
-        Balance+=valor;
-    }
+    }   
 }

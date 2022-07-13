@@ -1,0 +1,5 @@
+C:\Users\luizz\Documents\Workspace VS\C#\cursocsharp\bin\Debug\net6.0\publish\cursocsharp.exe
+C:\Users\luizz\Documents\Workspace VS\C#\cursocsharp\bin\Debug\net6.0\publish\cursocsharp.dll
+C:\Users\luizz\Documents\Workspace VS\C#\cursocsharp\bin\Debug\net6.0\publish\cursocsharp.deps.json
+C:\Users\luizz\Documents\Workspace VS\C#\cursocsharp\bin\Debug\net6.0\publish\cursocsharp.runtimeconfig.json
+C:\Users\luizz\Documents\Workspace VS\C#\cursocsharp\bin\Debug\net6.0\publish\cursocsharp.pdb
